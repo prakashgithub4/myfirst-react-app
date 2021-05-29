@@ -18,7 +18,7 @@ class Login extends React.Component {
     });
   };
   _onSubmitForm = () => {
-    alert(this.state.email);
+    
     var validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (this.state.email == "") {
