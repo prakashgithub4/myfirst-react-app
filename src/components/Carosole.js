@@ -9,7 +9,7 @@ export default function CarosoleBanner(){
         <p className="legend">Legend 1</p>
     </div>
     <div>
-        <img src="./images/2.jpeg" />
+        <img src="./images/2.jpg" />
         <p className="legend">Legend 2</p>
     </div>
     <div>

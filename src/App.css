@@ -28,7 +28,18 @@
 .App-link {
   color: #61dafb;
 }
-
+.bg-light{
+  background-color: #3428792e!important;
+}
+.text-info {
+  color: blueviolet!important;
+  padding: 11px;
+  margin-left: -492px;
+}
+.text-center{
+  color: blueviolet!important;
+  padding: 11px;
+}
 
 @keyframes App-logo-spin {
   from {
