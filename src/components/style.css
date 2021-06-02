@@ -41,3 +41,6 @@
   color: red!important;
   margin-left: -225.9px;
 }
+img:nth-last-of-type(4){
+  margin: auto;
+}
