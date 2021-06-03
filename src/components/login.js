@@ -1,22 +1,33 @@
 import React from "react";
+import axios from "axios";
+import apiurls from "../apiurls";
+import {Link} from'react-router-dom';
+
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
       error: "",
       show: "none",
+      message:null
     };
   }
 
   _changeMail = (event) => {
     let email = event.target.value;
-    console.log(email);
+   
     this.setState({
       email: email,
     });
   };
+  _onSetPassword =(event)=>{
+     let password = event.target.value;
+     this.setState({
+      password:password
+     });
+  }
   _onSubmitForm = () => {
     
     var validRegex =
@@ -37,16 +48,36 @@ class Login extends React.Component {
         show: "none",
       });
     }
+    axios({method:'post',url:apiurls.url+"login",data:{
+    
+      email:this.state.email,
+      password:this.state.password
+  }})
+  .then((response)=>{
+     console.log(response.status)
+     if(response.status == 200){
+       this.props.history.push('/');
+      // this.setState({
+      //   message :"User Successfully login"
+      // });
+     }
+     
+   
+    },(error)=>{
+      console.log(error)
+    });
   };
 
   render() {
-    let { error, show } = this.state;
+    console.log(this.props)
+    let { error, show,message } = this.state;
 
     return (
       <div
         id="login-row"
         className="row justify-content-center align-items-center"
       >
+        {message}
         <div id="login-column" className="col-md-6">
           <div id="login-box" className="col-md-12">
             <form id="login-form" className="form" action="" method="post">
@@ -76,10 +107,11 @@ class Login extends React.Component {
                 </label>
                 <br />
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   id="email"
                   className="form-control"
+                  onKeyUp={this._onSetPassword}
                 />
               </div>
 
@@ -91,6 +123,7 @@ class Login extends React.Component {
                 >
                   Login
                 </button>
+                <Link to={'/register'}>Sign up</Link>
               </div>
             </form>
           </div>
