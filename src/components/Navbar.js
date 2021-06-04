@@ -1,10 +1,22 @@
 import './style.css';
 import '../../src/App.css'
-import { Link } from 'react-router-dom';
+import React,{useState} from 'react';
+import { Link,withRouter } from 'react-router-dom';
 
 var string = "";
-export default function Navbar(props) {
+ function Navbar(props) {
+   let [name,setName]= useState(null);
+   var onChangeName = (event)=>{
+     //console.log(event.target.value);
+      setName(event.target.value)
+   }
+  var redirect =()=>{
+    if(name != null){
+      props.history.push('/search/'+name)
+      document.getElementById("myform").reset();
+    }
   
+  }
    
   return (
     <div >
@@ -91,16 +103,16 @@ export default function Navbar(props) {
               </a>
             </li> */}
           </ul>
-          <form className="d-flex">
+          <form id="myform" className="d-flex">
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
-              onKeyPress={getText}
+              onKeyUp={onChangeName}
             />
              <label>{string}</label>
-            <button className="btn btn-outline-success" type="button" onClick={()=>_searchEvent()}>
+            <button className="btn btn-outline-success" onClick={redirect}type="button" >
               Search
             </button>
           </form>
@@ -111,13 +123,4 @@ export default function Navbar(props) {
   );
 }
 
-
-function getText(event){
-  console.log(event.target.value)
- string = event.target.value
-  
-}
-function _searchEvent(){
-  alert("ok")
-//  getText()
-}
+export default withRouter(Navbar)

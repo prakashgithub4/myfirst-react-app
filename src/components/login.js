@@ -54,12 +54,10 @@ class Login extends React.Component {
       password:this.state.password
   }})
   .then((response)=>{
-     console.log(response.status)
-     if(response.status == 200){
+     console.log(response)
+     if(response.data.token){
        this.props.history.push('/');
-      // this.setState({
-      //   message :"User Successfully login"
-      // });
+     
      }
      
    

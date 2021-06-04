@@ -10,16 +10,20 @@ import Login from './components/login';
 import apiurls from './apiurls';
 import axios from 'axios';
 import Register from './components/Register';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch,withRouter} from 'react-router-dom';
 import Content from "./components/Content";
 import Home from "./components/home";
 import Contact from './components/Contact';
 import PageNotFound from './components/PageNotFound';
+import CakeDetails from './components/CakeDetails';
+import Search from './components/Search';
 
 
 
 function App() {
   //console.log(cakes)
+  
+  
   
 
   
@@ -30,12 +34,14 @@ function App() {
      
       <Router>
         
-      <Navbar name="prakash"></Navbar>
+      <Navbar name={"praksh"} ></Navbar>
        <Switch>
         <Route exact path='/' component={Home}></Route>
         <Route exact path='/login' component={Login}></Route>
         <Route exact path='/register' component={Register}></Route>
         <Route exact path='/contact' component={Contact}></Route>
+        <Route exact path='/cakedetails/:cake_id' component={CakeDetails}></Route>
+        <Route exact path='/search/:name' component={Search}></Route>
         <Route path='/*' component={PageNotFound}></Route>
         </Switch>
         <Footer></Footer>
