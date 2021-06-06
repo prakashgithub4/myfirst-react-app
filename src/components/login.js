@@ -11,6 +11,7 @@ class Login extends React.Component {
       password: "",
       error: "",
       show: "none",
+      flag:true,
       message:null
     };
   }
@@ -37,6 +38,7 @@ class Login extends React.Component {
         error: "Email field is empty",
         show: "block",
       });
+     
     } else if (!this.state.email.match(validRegex)) {
       this.setState({
         error: "Email Address is not valid",
@@ -48,16 +50,26 @@ class Login extends React.Component {
         show: "none",
       });
     }
-    axios({method:'post',url:apiurls.url+"login",data:{
+    axios({method:'post',url:process.env.REACT_APP_BASE_URL+"/login",data:{
     
       email:this.state.email,
       password:this.state.password
   }})
   .then((response)=>{
-     console.log(response)
+   
      if(response.data.token){
+      const user = {token:response.data.token,email:response.data.email,name:response.data.name,role:response.data.role}
+      window.localStorage.setItem('user',JSON.stringify(user));
+      this.setState({
+        flag:true
+       })
+    // console.log(token)
        this.props.history.push('/');
      
+     }else{
+      this.setState({
+        flag:false
+       })
      }
      
    
@@ -67,7 +79,7 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props)
+   
     let { error, show,message } = this.state;
 
     return (
@@ -76,10 +88,12 @@ class Login extends React.Component {
         className="row justify-content-center align-items-center"
       >
         {message}
+       
         <div id="login-column" className="col-md-6">
           <div id="login-box" className="col-md-12">
             <form id="login-form" className="form" action="" method="post">
               <h3 className="text-center">Login</h3>
+              {(this.state.flag==false)?<span>Invalid user name or password</span>:null}
               <div className="form-group">
                 <label for="username" className="text-info">
                   Email:

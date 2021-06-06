@@ -40,7 +40,7 @@ export default function Register() {
   if(flag==true){
       setMessage('Please fill this form properly');
   }else{
-    axios({method:'post',url:apiurls.url+"register",data:{
+    axios({method:'post',url:process.env.REACT_APP_BASE_URL+"/register",data:{
         name:name,
         email:email,
         password:password

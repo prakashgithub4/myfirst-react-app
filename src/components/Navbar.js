@@ -1,23 +1,28 @@
 import './style.css';
 import '../../src/App.css'
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Link,withRouter } from 'react-router-dom';
 
 var string = "";
  function Navbar(props) {
+ 
    let [name,setName]= useState(null);
-   var onChangeName = (event)=>{
+      var onChangeName = (event)=>{
      //console.log(event.target.value);
       setName(event.target.value)
    }
   var redirect =()=>{
     if(name != null){
-      props.history.push('/search/'+name)
+      props.history.push('/search?q='+name)
       document.getElementById("myform").reset();
     }
   
   }
-   
+  let token = JSON.parse(window.localStorage.getItem('user'));
+  
+  
+
+  
   return (
     <div >
       
@@ -49,19 +54,13 @@ var string = "";
                Contact
               </Link>
             </li>
-
-            <li className="nav-item">
-              <Link to={'/login'} className="nav-link" >
-               Login
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-               {props.name}
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              {/* <a
+         {(!token)?(<li className="nav-item">
+             
+             <Link to={'/login'} className="nav-link" >
+              Login
+             </Link>
+           </li>):(  <li className="nav-item dropdown">
+              <a
                 class="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdown"
@@ -69,39 +68,33 @@ var string = "";
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown{" "}
-              </a> */}
-              {/* <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {token.name}
+              </a>
+             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
-                  <a class="dropdown-item" href="#">
-                    Action
-                  </a>
+                  <Link to={'/myprofile'} className="dropdown-item" >
+                    My Profile
+                  </Link>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
-                    Another action
-                  </a>
+                  <Link className="dropdown-item" to={'/logout'}>
+                   Logout
+                  </Link>
                 </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul> */}
-            </li>
-            {/* <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-              >
-                Disabled
+              </ul> 
+            </li>)
+           }
+            
+          
+
+            
+            {/* <li className="nav-item">
+              <a className="nav-link" href="#">
+               {props.name}
               </a>
             </li> */}
+            
+           
           </ul>
           <form id="myform" className="d-flex">
             <input
