@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
-import apiurls from "../apiurls";
+
 import {Link} from'react-router-dom';
+import {connect} from 'react-redux'
 
 class Login extends React.Component {
   constructor(props) {
@@ -58,8 +59,14 @@ class Login extends React.Component {
   .then((response)=>{
    
      if(response.data.token){
-      const user = {token:response.data.token,email:response.data.email,name:response.data.name,role:response.data.role}
-      window.localStorage.setItem('user',JSON.stringify(user));
+       let obj = {token:response.data.token,name:response.data.name,email:response.data.email,flag:true}
+       this.props.dispatch({
+         type:"LOGIN",
+         payload:obj
+       });
+       localStorage.token = response.data.token;
+      // const user = {token:response.data.token,email:response.data.email,name:response.data.name,role:response.data.role}
+      // window.localStorage.setItem('user',JSON.stringify(user));
       this.setState({
         flag:true
        })
@@ -144,4 +151,11 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+function mapStateToProps(state,props){
+  
+  return {
+   email:state?.email,
+   flag:state?.flag
+  }
+}
+export default connect(mapStateToProps)(Login);

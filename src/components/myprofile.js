@@ -11,7 +11,7 @@ export default function Myprofile(){
             method:'get',
             url:process.env.REACT_APP_BASE_URL+'/getuserdetails',
             headers:{
-            authtoken:token.token
+            authtoken:localStorage.token
             }})
             .then((response)=>{
             console.log(">>>>>>>>> user",response.data)

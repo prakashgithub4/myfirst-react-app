@@ -2,9 +2,11 @@ import './style.css';
 import '../../src/App.css'
 import React,{useState,useEffect} from 'react';
 import { Link,withRouter } from 'react-router-dom';
+import {connect} from 'react-redux';
 
 var string = "";
  function Navbar(props) {
+   console.log(">>>>>>",props)
  
    let [name,setName]= useState(null);
       var onChangeName = (event)=>{
@@ -18,11 +20,16 @@ var string = "";
     }
   
   }
-  let token = JSON.parse(window.localStorage.getItem('user'));
-  
-  
 
-  
+
+  let logout=()=>{
+    props.dispatch({
+      type:"LOGOUT",
+     
+    })
+    props.history.push('/')
+  }
+  let token = JSON.parse(window.localStorage.getItem('user'));
   return (
     <div >
       
@@ -54,12 +61,14 @@ var string = "";
                Contact
               </Link>
             </li>
-         {(!token)?(<li className="nav-item">
+            
+         {(!localStorage.token)?(<li className="nav-item">
              
              <Link to={'/login'} className="nav-link" >
               Login
              </Link>
            </li>):(  <li className="nav-item dropdown">
+            
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -68,7 +77,7 @@ var string = "";
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {token.name}
+               
               </a>
              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
@@ -77,7 +86,7 @@ var string = "";
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to={'/logout'}>
+                  <Link className="dropdown-item" onClick={logout}>
                    Logout
                   </Link>
                 </li>
@@ -108,6 +117,21 @@ var string = "";
             <button className="btn btn-outline-success" onClick={redirect}type="button" >
               Search
             </button>
+            {
+             !props.flag && <Link className="btn btn-info" to={'/login'} >
+               Login
+             </Link>
+           
+            }
+
+            {
+                props.flag &&  <button className="btn btn-danger" type="button" onClick={logout} >
+                Logout
+              </button>
+            }
+           
+
+           
           </form>
         </div>
       </div>
@@ -116,4 +140,13 @@ var string = "";
   );
 }
 
-export default withRouter(Navbar)
+ Navbar = withRouter(Navbar);
+
+export default connect((state,ownprops)=>{
+ 
+  return {
+    email:state?.email,
+    flag:state?.flag
+  }
+})(Navbar);
+
