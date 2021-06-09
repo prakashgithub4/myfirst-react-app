@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import apiurls from "../apiurls";
 import "../index.css";
-import { Link } from "react-router-dom";
-export default function CakeDetails(props) {
+import { Link,withRouter } from "react-router-dom";
+import axios from "axios";
+import {connect} from "react-redux";
+
+ function CakeDetails(props) {
   let id = props.match.params.cake_id;
   let [data, setData] = useState([]);
   let [flag, setFlag] = useState(true);
@@ -19,6 +20,24 @@ export default function CakeDetails(props) {
       }
     );
   }, []);
+
+  let addtocart = (inputparams)=>{
+   // console.log(inputparams)
+    axios({method:"post",url:process.env.REACT_APP_BASE_URL+"/addcaketocart", headers:{
+      authtoken:props.token
+      },data:inputparams})
+    .then((response)=>{
+       console.log(response.data);
+       props.dispatch({
+         type:"ADD_TO_CART",
+         payload:response.data
+       });
+       props.history.push('/carts')
+    },
+    (error) => {
+      console.log(error);
+    });
+  }
   if (!flag) {
     return (
       <div class="row" style={{ marginTop: "10px" }}>
@@ -39,6 +58,7 @@ export default function CakeDetails(props) {
                 <div className="col-md-6" style={{ padding: "10px" }}>
                   <label>Total Review</label>
                   &nbsp; &nbsp;
+                  
                   <span>{data.reviews}</span>
                 </div>
               </div>
@@ -53,9 +73,9 @@ export default function CakeDetails(props) {
               <p class="card-text">{data.description}</p>
               <div className="row">
                 <div className="col-md-6">
-                  <Link to="/carts" className="btn btn-primary">
+                  <button className="btn btn-primary" onClick={()=>addtocart({cakeid:data.cakeid,name:data.name,image:data.image,price:data.price,weight:data.weight})}>
                   <i class="fas fa-cart-arrow-down"></i> Cart
-                  </Link>
+                  </button>
                 </div>
                 <div className="col-md-6">
                   <Link to="/checkout" className="btn btn-warning">
@@ -74,3 +94,13 @@ export default function CakeDetails(props) {
     return <div>Loading ...</div>;
   }
 }
+function maptostateProps(state,props){
+  console.log(state)
+  return {
+    token:state.AuthReducer?.token,
+    cartdata:state.CartReducer?.cartdata
+
+  }
+}
+CakeDetails =withRouter(CakeDetails);
+export default connect(maptostateProps)(CakeDetails)

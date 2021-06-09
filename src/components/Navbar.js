@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 var string = "";
  function Navbar(props) {
-   console.log(">>>>>>",props)
+ 
  
    let [name,setName]= useState(null);
       var onChangeName = (event)=>{
@@ -29,7 +29,7 @@ var string = "";
     })
     props.history.push('/')
   }
-  let token = JSON.parse(window.localStorage.getItem('user'));
+  //let token = JSON.parse(window.localStorage.getItem('user'));
   return (
     <div >
       
@@ -143,10 +143,10 @@ var string = "";
  Navbar = withRouter(Navbar);
 
 export default connect((state,ownprops)=>{
- 
+
   return {
-    email:state?.email,
-    flag:state?.flag
+    email:state.AuthReducer?.email,
+    flag:state.AuthReducer?.flag
   }
 })(Navbar);
 

@@ -1,4 +1,5 @@
-import {createStore} from 'redux';
+import {createStore,combineReducers} from 'redux';
 import AuthReducer from './AuthReducer';
-let store  = createStore(AuthReducer);
+import CartReducer from './Cartreducer';
+let store  = createStore(combineReducers({AuthReducer:AuthReducer,CartReducer:CartReducer}));
 export default store;
