@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import apiurl from '../apiurls'
 import axios from 'axios';
-export default function Myprofile(){
+import { connect } from 'react-redux';
+ function Myprofile(props){
     let token = JSON.parse(window.localStorage.getItem('user'));
 
     let [useData,setUserData] = useState([]);
@@ -11,10 +12,10 @@ export default function Myprofile(){
             method:'get',
             url:process.env.REACT_APP_BASE_URL+'/getuserdetails',
             headers:{
-            authtoken:localStorage.token
+            authtoken:props.token
             }})
             .then((response)=>{
-            console.log(">>>>>>>>> user",response.data)
+         
             setUserData(response.data.data)
             setFlag(false)
             },(error)=>{
@@ -45,19 +46,15 @@ export default function Myprofile(){
                
           }
                 
-                {/* <div class="span2">
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
-                           Edit
-                            <span class="icon-cog icon-white"></span><span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#"><span class="icon-wrench"></span> Modify</a></li>
-                            <li><a href="#"><span class="icon-trash"></span> Delete</a></li>
-                        </ul>
-                    </div>
-                </div> */}
+               
         </div>
         </div>
     )
 }
+function mapStateToProps(state,props){
+    //console.log(state)
+    return{
+        token:state.AuthReducer?.token
+    }
+}
+export default connect(mapStateToProps)(Myprofile);
