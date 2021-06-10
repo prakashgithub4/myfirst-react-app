@@ -1,24 +1,12 @@
 import React,{useEffect} from "react";
 import {connect} from 'react-redux';
-import axios from 'axios';
+import {CartList} from'../reduxStore/middlewares';
+//import axios from 'axios';
  function Cart(props) {
 
      useEffect(()=>{
-        axios({method:"post",url:process.env.REACT_APP_BASE_URL+"/cakecart", headers:{
-            authtoken:props.token
-            }})
-          .then((response)=>{
-             //console.log(response.data);
-             props.dispatch({
-               type:"ADD_TO_CART_LIST",
-               payload:response.data
-             });
-             props.history.push('/carts')
-          },
-          (error) => {
-            console.log(error);
-          });
-    
+       
+      props.dispatch(CartList(props.token))
      },[])
      
      
@@ -54,10 +42,11 @@ import axios from 'axios';
   );
 }
 function mapStateToProps(state,props){
-    // console.log(state)
+     console.log(state.CartListReducer)
    return {
       token:state.AuthReducer?.token,
-      cartdata:state.CartReducer?.cartdata
+      cartlist:state.CartListReducer?.isLoading,
+      cartdata:state.CartListReducer?.cartdata
    }
 }
 export default connect(mapStateToProps)(Cart);

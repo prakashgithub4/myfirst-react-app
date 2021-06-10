@@ -62,7 +62,7 @@ var string = "";
               </Link>
             </li>
             
-         {(!localStorage.token)?(<li className="nav-item">
+         {(!props.flag)?(<li className="nav-item">
              
              <Link to={'/login'} className="nav-link" >
               Login
@@ -143,7 +143,7 @@ var string = "";
  Navbar = withRouter(Navbar);
 
 export default connect((state,ownprops)=>{
-
+ 
   return {
     email:state.AuthReducer?.email,
     flag:state.AuthReducer?.flag

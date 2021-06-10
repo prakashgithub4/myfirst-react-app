@@ -41,7 +41,7 @@ export default function Home(props){
         return <Cake key={index} data={item} ></Cake>;
         
       });
-     console.log(cakeItems)
+     
    //  
    return (<div>
        <CarosoleBanner></CarosoleBanner>

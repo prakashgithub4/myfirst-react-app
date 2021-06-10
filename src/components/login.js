@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 
 import {Link} from'react-router-dom';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import {loginMiddlware} from '../reduxStore/middlewares';
 
 class Login extends React.Component {
   constructor(props) {
@@ -51,42 +52,15 @@ class Login extends React.Component {
         show: "none",
       });
     }
-    axios({method:'post',url:process.env.REACT_APP_BASE_URL+"/login",data:{
-    
-      email:this.state.email,
-      password:this.state.password
-  }})
-  .then((response)=>{
-   
-     if(response.data.token){
-       let obj = {token:response.data.token,name:response.data.name,email:response.data.email,flag:true}
-       this.props.dispatch({
-         type:"LOGIN",
-         payload:obj
-       });
-       localStorage.token = response.data.token;
-      // const user = {token:response.data.token,email:response.data.email,name:response.data.name,role:response.data.role}
-      // window.localStorage.setItem('user',JSON.stringify(user));
-      this.setState({
-        flag:true
-       })
-    // console.log(token)
-       this.props.history.push('/');
-     
-     }else{
-      this.setState({
-        flag:false
-       })
-     }
-     
-   
-    },(error)=>{
-      console.log(error)
-    });
+    let loginmiddleware = loginMiddlware(this.state);
+     this.props.dispatch(loginmiddleware)
   };
+  
+  
 
   render() {
    
+      
     let { error, show,message } = this.state;
 
     return (
@@ -152,10 +126,14 @@ class Login extends React.Component {
   }
 }
 function mapStateToProps(state,props){
-  
-  return {
-   email:state?.email,
-   flag:state?.flag
+  console.log(state)
+  if(state.AuthReducer?.isLoading == true){
+    props.history.push('/');
+  }else{
+   return {
+    isLoading:state.AuthReducer?.isLoading
+   } 
   }
+ 
 }
 export default connect(mapStateToProps)(Login);

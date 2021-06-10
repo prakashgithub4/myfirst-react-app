@@ -2,22 +2,34 @@
 function AuthReducer(state ={
   email:undefined,
   flag:localStorage.token?true:false,
-  token:localStorage.token
+  token:localStorage.token,
+  isLoading:true
 },action){
   
       switch(action.type){
-          
-          case "LOGIN":{
+          case "LOGIN_STARTED":{
+            state ={...state};
+            state["isLoading"]=true;
+            return state;
+          }
+          case "LOGIN_SUCCESS":{
               state ={...state};
               state["token"]=action.payload?.token;
               state["email"] = action.payload?.email;
+              state["isLoading"]=true;
               state['flag'] = true;
            return state;
+          }
+          case "LOGIN_FAIL":{
+            state={...state};
+            state['isLoading']=false;
+            return state;
           }
           case "LOGOUT":{
             state ={...state};
             localStorage.clear();
             state.flag = false;
+            state.isLoading=false;
             state.email = undefined;
             return state;
           }
