@@ -44,7 +44,7 @@ export function loginMiddlware(data){
   // alert(JSON.stringify(data))
 }
 export function AddToCart(data){
-  
+  alert(JSON.stringify(data))
   return (dispatch)=>{
      dispatch({
     type:"CART_STARTED"
@@ -102,7 +102,7 @@ export function cakeDetails(data){
     });
     axios({ method: "get", url: process.env.REACT_APP_BASE_URL + "/cake/" + data.id, data: JSON }).then(
       (response) => {
-        console.log("raw>>>>>>",response.data);
+      
         dispatch({
           type:"CAKE_DETAILS_FETCH_SUCCESSFULLY",
           payload:response.data
@@ -113,5 +113,40 @@ export function cakeDetails(data){
         console.log(error);
       }
     );
+  }
+}
+/** Remove cart function  */
+export function Removecart(data){
+ // alert(JSON.stringify(data))
+  return (dispatch)=>{
+    dispatch({
+      type:'REMOVE_CART_STARTED'
+    })
+    axios({ method: "post", url:process.env.REACT_APP_BASE_URL + "/removecakefromcart",  headers:{
+      authtoken:data.token
+      },data: {cakeid:data.cakeid} }).then(
+      (response) => {
+      
+        dispatch({
+          type:"REMOVE_CART_SUCCESSFULLY",
+          payload:response.data
+        })
+      
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+}
+export function OrderDtails(data){
+  return (dispatch)=>{
+    dispatch({
+      type:'CONFIRM_ORDER_STARTED',
+    })
+    dispatch({
+      type:'CONFIRM_ORDER_SUCCESS',
+      payload:data.sum
+    })
   }
 }

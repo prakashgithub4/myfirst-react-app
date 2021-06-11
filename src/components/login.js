@@ -74,7 +74,7 @@ class Login extends React.Component {
           <div id="login-box" className="col-md-12">
             <form id="login-form" className="form" action="" method="post">
               <h3 className="text-center">Login</h3>
-              {(this.state.flag==false)?<span>Invalid user name or password</span>:null}
+              {(this.props.isLoading==false)?<span>Invalid user name or password</span>:null}
               <div className="form-group">
                 <label for="username" className="text-info">
                   Email:
@@ -126,13 +126,16 @@ class Login extends React.Component {
   }
 }
 function mapStateToProps(state,props){
-  console.log(state)
-  if(state.AuthReducer?.isLoading == true){
-    props.history.push('/');
+ console.log(state.AuthReducer.isLoading);
+  if(state.AuthReducer.isLoading == true){
+    return{
+      isLoading:state.AuthReducer?.isLoading
+      
+    }
   }else{
-   return {
-    isLoading:state.AuthReducer?.isLoading
-   } 
+   
+   props.history.push('/')
+   
   }
  
 }

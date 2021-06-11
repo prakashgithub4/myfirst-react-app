@@ -41,13 +41,22 @@ div.c {
 background-color: #e7fee8;
 color:white;
 }
+a{
+  text-decoration: none;
+}
+.list-group-item.active{
+  z-index: 2;
+    color: #fff;
+    background-color: #fdbe0d;
+    border-color: #0d6efd;
+}
 
 .pagination {
   margin: 15px auto;
   display: flex;
   list-style: none;
   outline: none;
-  margin-top: 673px;
+  margin-top: 826px;
   padding-left: 373px;
 }
 .pagination > .active > a{

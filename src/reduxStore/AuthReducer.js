@@ -16,13 +16,13 @@ function AuthReducer(state ={
               state ={...state};
               state["token"]=action.payload?.token;
               state["email"] = action.payload?.email;
-              state["isLoading"]=true;
+              state["isLoading"]=false;
               state['flag'] = true;
            return state;
           }
           case "LOGIN_FAIL":{
             state={...state};
-            state['isLoading']=false;
+            state['isLoading']=true;
             return state;
           }
           case "LOGOUT":{
@@ -33,7 +33,12 @@ function AuthReducer(state ={
             state.email = undefined;
             return state;
           }
-          default : return state;
+         
+          default : {
+            state={...state}
+            //state['isLoading']=false;
+            return state;
+          }
       }
 }
 export default AuthReducer;

@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 //import './reduxStore/store';
 import {Provider} from 'react-redux';
 import dmart from './reduxStore/store';
+import '../node_modules/font-awesome/css/font-awesome.min.css'; 
 
 
 ReactDOM.render(

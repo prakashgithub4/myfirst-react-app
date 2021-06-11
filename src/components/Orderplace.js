@@ -1,4 +1,4 @@
-export default function Container(){
+export default function OrderPlace(){
     return (<div><p>
 
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, 

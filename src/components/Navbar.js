@@ -130,6 +130,7 @@ var string = "";
               </button>
             }
            
+           <Link to={'/carts'} className="btn btn-outline-success"><i class="fa fa-shopping-cart"></i> Cart 0</Link>
 
            
           </form>
@@ -143,7 +144,7 @@ var string = "";
  Navbar = withRouter(Navbar);
 
 export default connect((state,ownprops)=>{
- 
+  
   return {
     email:state.AuthReducer?.email,
     flag:state.AuthReducer?.flag

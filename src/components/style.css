@@ -44,3 +44,15 @@
 img:nth-last-of-type(4){
   margin: auto;
 }
+.flavour{
+  padding-right: 260px;
+  font-family: revert;
+  word-spacing: 2px;
+}
+.card-body{
+  background: #e0ffc4;
+}
+.img-thumbnail{
+  background-color: #e0ffc4;
+  border:none
+}

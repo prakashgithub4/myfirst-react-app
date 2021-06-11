@@ -6,11 +6,11 @@ import {connect} from "react-redux";
 import {AddToCart} from '../reduxStore/middlewares'
 import {cakeDetails} from '../reduxStore/middlewares';
 
+
  function CakeDetails(props) {
   // console.log(">>>>>>>>>>>>> store",props.data.data)
   let id = props.match.params.cake_id;
-  let [data, setData] = useState([]);
-  let [flag, setFlag] = useState(true);
+  
   useEffect(() => {
     props.dispatch(cakeDetails({id:id}))
     // axios({ method: "get", url: process.env.REACT_APP_BASE_URL + "/cake/" + id, data: JSON }).then(
@@ -27,8 +27,13 @@ import {cakeDetails} from '../reduxStore/middlewares';
 
   let addtocart = (inputparams)=>{
    // console.log(inputparams)
-   let addtocart = AddToCart(inputparams);
-   props.dispatch(addtocart);
+   if(inputparams.token!=undefined){
+    let addtocart = AddToCart(inputparams);
+     props.dispatch(addtocart);
+   }else{
+     alert("please Login First then use cart")
+   }
+  
    //props.history.push('/carts')
        
    
@@ -43,7 +48,7 @@ import {cakeDetails} from '../reduxStore/middlewares';
               <p class="card-text">
                 <img src={props.data.data.image} class="img-thumbnail" alt="..." />
               </p>
-              <price>RS:{props.data.price}/-</price>
+              <price>RS:{props.data.data.price}/-</price>
               <div className="row">
                 <div className="col-md-6" style={{ padding: "10px" }}>
                   <label>Total Ratings:</label>
@@ -66,17 +71,23 @@ import {cakeDetails} from '../reduxStore/middlewares';
             <div class="card-body">
               {/* <h5 class="card-title">Special title treatment</h5> */}
               <p class="card-text">{props.data.data.description}</p>
+              <div class="flavour">
+                <h6>Product Details</h6>
+                <p><label>type:&nbsp;</label>{props.data.data.type}</p>
+
+                <p><label>Flavour:</label>&nbsp;{props.data.data.type}</p>
+                
+              </div>
+              
               <div className="row">
+              
                 <div className="col-md-6">
-                  <button className="btn btn-primary" onClick={()=>addtocart({cakeid:props.data.data.cakeid,name:props.data.data.name,image:props.data.data.image,price:props.data.price,weight:props.data.data.weight,token:props.token})}>
-                  <i class="fas fa-cart-arrow-down"></i> Cart
+
+                  <button className="btn btn-danger" onClick={()=>addtocart({cakeid:props.data.data.cakeid,name:props.data.data.name,image:props.data.data.image,price:props.data.data.price,weight:props.data.data.weight,token:props.token})}>
+                  <i class="fa fa-cart-plus">&nbsp;</i>Add to Cart
                   </button>
                 </div>
-                <div className="col-md-6">
-                  <Link to="/checkout" className="btn btn-warning">
-                    Checkout
-                  </Link>
-                </div>
+               
               </div>
 
               {/* <a href="#" class="btn btn-primary">Go somewhere</a> */}
