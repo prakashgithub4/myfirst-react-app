@@ -1,105 +1,93 @@
-import './style.css';
-import '../../src/App.css'
-import React,{useState,useEffect} from 'react';
-import { Link,withRouter } from 'react-router-dom';
-import {connect} from 'react-redux';
-import {CartList,MyorderList} from '../reduxStore/middlewares'
+import "./style.css";
+import "../../src/App.css";
+import React, { useState, useEffect } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { CartList, MyorderList } from "../reduxStore/middlewares";
 
 var string = "";
- function Navbar(props) {
-  useEffect(()=>{
-       props.dispatch(CartList(props.token))
-       props.dispatch(MyorderList(props.token));
+function Navbar(props) {
+  useEffect(() => {
+    props.dispatch(CartList(props.token));
+    props.dispatch(MyorderList(props.token));
+  }, []);
 
-  },[])
-  
- 
-   let [name,setName]= useState(null);
-   
-      var onChangeName = (event)=>{
-    
-      setName(event.target.value)
-   }
-  var redirect =()=>{
-   
-     setTimeout(function(){ 
-      
-       props.history.push('/search?q='+name) 
-      }, 1000);
+  let [name, setName] = useState(null);
 
-    
-      
-    
-  
-  }
+  var onChangeName = (event) => {
+    setName(event.target.value);
+  };
+  var redirect = () => {
+    setTimeout(function () {
+      props.history.push("/search?q=" + name);
+    }, 1000);
+  };
 
-
-  let logout=()=>{
+  let logout = () => {
     props.dispatch({
-      type:"LOGOUT",
-     
-    })
-    props.history.push('/')
-  }
-  console.log(props)
+      type: "LOGOUT",
+    });
+    props.history.push("/");
+  };
+  console.log(props);
   //let token = JSON.parse(window.localStorage.getItem('user'));
   return (
-    <div >
-      
-    <nav  className="container   navbar text-success navbar-expand-lg navbar-light bg-light " >
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          <img src="../images/neosoft.svg" height="30" width="200"/>
-        </a>
-        
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <div>
+      <nav className="container   navbar text-success navbar-expand-lg navbar-light bg-light ">
+        <div className="container-fluid">
+          <Link to="/" className="navbar-brand" href="#">
+            <img src="../images/neosoft.svg" height="30" width="200" />
+          </Link>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link to={'/'} className="nav-link active" aria-current="page">
-                Home
-              </Link>
-            </li>
-            {(props.role ==true)?(<li className="nav-item">
-                <Link to="/admin" className="nav-link" aria-current="page">
-                <i class="fa fa-users"></i>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link to={"/"} className="nav-link active" aria-current="page">
+                  Home
                 </Link>
-              </li>):null
-                
-            }
-           
-            <li className="nav-item">
-              <Link to={'/contact'} className="nav-link" >
-               Contact
-              </Link>
-            </li>
-             {
-             !props.flag && <Link className="btn btn-info" to={'/login'} >
-               Login
-             </Link>
-           
-            }
+              </li>
+              {props.role == true ? (
+                <li className="nav-item">
+                  <Link to="/admin" className="nav-link" aria-current="page">
+                    <i class="fa fa-users"></i>
+                  </Link>
+                </li>
+              ) : null}
 
-            {
-                props.flag &&  <button className="btn btn-danger" type="button" onClick={logout} >
-                Logout
-              </button>
-            }
+              <li className="nav-item">
+                <Link to={"/contact"} className="nav-link">
+                  Contact
+                </Link>
+              </li>
+              {!props.flag && (
+                <Link className="btn btn-info" to={"/login"}>
+                  Login
+                </Link>
+              )}
 
+              {props.flag && (
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              )}
 
-            
-         {/* {(!props.flag)?(<li className="nav-item">
+              {/* {(!props.flag)?(<li className="nav-item">
              
              <Link to={'/login'} className="nav-link" >
               Login
@@ -133,52 +121,59 @@ var string = "";
             
            */}
 
-            
-            {/* <li className="nav-item">
+              {/* <li className="nav-item">
               <a className="nav-link" href="#">
                {props.name}
               </a>
             </li> */}
-            
-           
-          </ul>
-          <form id="myform" className="d-flex">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              onChange={onChangeName}
-            />
-             <label>{string}</label>
-            <Link className="search" onClick={redirect} >
-            <i class="fa fa-search"></i>
-            </Link>
-           
-           
-           <Link to={'/carts'}><span className="badge">{(props.count_cart==null)?0:props.count_cart.length}</span><i className="fa fa-shopping-cart"></i></Link>
-           <Link to={'/myorders'}><span className="badge">{(props.count_orders==null)?0:props.count_orders.length}</span><i class="fa fa-shopping-bag"></i></Link>
-
-           
-          </form>
+            </ul>
+            <form id="myform" className="d-flex">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                onChange={onChangeName}
+              />
+              <label>{string}</label>
+              <Link className="search" onClick={redirect}>
+                <i class="fa fa-search"></i>
+              </Link>
+             
+          {
+         props.flag&& <Link to="/carts">
+            <span className="badge">
+              {props.count_cart == null ? 0 : props.count_cart.length}
+            </span>
+            <i className="fa fa-shopping-cart"></i>
+          </Link>
+          }
+              {
+                props.flag && <Link to={"/myorders"}>
+                <span className="badge">
+                  {props.count_orders == null ? 0 : props.count_orders.length}
+                </span>
+                <i class="fa fa-shopping-bag"></i>
+              </Link>
+              }
+              
+            </form>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
     </div>
   );
 }
 
- Navbar = withRouter(Navbar);
+Navbar = withRouter(Navbar);
 
-export default connect((state,ownprops)=>{
-  
+export default connect((state, ownprops) => {
   return {
-    email:state.AuthReducer?.email,
-    flag:state.AuthReducer?.flag,
-    role:state.AuthReducer?.role,
-    token:state.AuthReducer?.token,
-    count_cart:state.CartListReducer?.cartdata,
-    count_orders:state.CartReducer?.orders
-  }
+    email: state.AuthReducer?.email,
+    flag: state.AuthReducer?.flag,
+    role: state.AuthReducer?.role,
+    token: state.AuthReducer?.token,
+    count_cart: state.CartListReducer?.cartdata,
+    count_orders: state.CartReducer?.orders,
+  };
 })(Navbar);
-

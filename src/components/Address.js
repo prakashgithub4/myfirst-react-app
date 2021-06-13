@@ -9,6 +9,12 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
   let [phone, setPhone] = useState(null);
   let [city, setCity] = useState(null);
   let [pincode, setPincode] = useState(null);
+  let [nameerr,setNameErr]=useState(false)
+  let [addresserr,setAddressErr] = useState(false)
+  let [phoneErr,setPhoneErr] = useState(false);
+  let [invalid,setInvalid] = useState(false)
+  let [cityErr,setCityErr] = useState(false);
+  let [pincodeErr,setPincodeError]=useState(false)
 
   useEffect(() => {
     if (props.token == undefined) {
@@ -34,28 +40,32 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
     }
   }
   let onSubmit = ()=>{
+   // var validRegex =/^\d{4}$|^\d{6}$/;
       if(names == null){
-          alert("name field is required");
-          return false;
+          //alert("name field is required");
+          setNameErr(true)
+         // return false;
       }
       if(address == null){
-          alert("address field is required")
-          return false;
+         // alert("address field is required")
+         setAddressErr(true)
+         // return false;
       }
       if(phone == null){
-          alert("phone number field is required")
-          return false;
+        setPhoneErr(true)
+         // return false;
       }else if(phone.length >10){
-        alert("phone number field is invalid");
-        return false;
+       
+        setInvalid(true)
+      //  return false;
       }
       if(city == null){
-          alert("city field is required ");
-          return false;
+        setCityErr(true)
+        //  return false;
       }
       if(pincode == null){
-          alert("pincode field is required");
-          return false;
+        setPincodeError(true)
+         // return false;
       }
      
       let obj = {
@@ -70,6 +80,7 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
           
     
       }
+      //console.log("submit",obj)
       let addorder = AddOrder(obj,props)
       props.dispatch(addorder)
      // props.history.push('/checkout/confirm')
@@ -94,6 +105,7 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
             placeholder="Name"
             onChange={handleInput}
           />
+          {nameerr&&<small>Name Field is required</small>}
         </div>
       </div>
       <div class="form-group row">
@@ -110,6 +122,7 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
             onChange={handleInput}
           />
         </div>
+        {addresserr&&<small>address field is required</small>}
       </div>
       <div class="form-group row">
         <label for="inputPassword" class="col-sm-2 col-form-label">
@@ -124,6 +137,12 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
             placeholder="Phone No."
             onChange={handleInput}
           />
+          {
+            phoneErr&&<small>Phone No field is required</small>
+          }
+          {
+            invalid&&<small>phone number field is invalid</small>
+          }
         </div>
       </div>
       <div class="form-group row">
@@ -140,6 +159,9 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
             onChange={handleInput}
           />
         </div>
+        {
+          cityErr&&<small>City Field is require</small>
+        }
       </div>
 
       <div class="form-group row">
@@ -155,6 +177,9 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
             placeholder="Pincode"
             onChange={handleInput}
           />
+          {
+            pincodeErr&&<small>Pincode field is required</small>
+          }
         </div>
       </div>
 
