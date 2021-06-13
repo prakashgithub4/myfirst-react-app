@@ -20,7 +20,8 @@ import Checkout from './components/Checkout';
 import Logout from './components/Logout';
 import Myprofile from './components/myprofile';
 import Cart from './components/carts';
-import OrderPlace from './components/Orderplace';
+import MyOrder from './components/MyOrders';
+import Admin from'./components/Admin';
 import { Suspense } from 'react';
 
 
@@ -50,8 +51,9 @@ cart=<Suspense fallback={<div>Loading ..</div>}><Cart></Cart></Suspense>
         <Route exact path='/search' component={Search}></Route>
         <Route exact path='/logout' component ={Logout}></Route>
         <Route exact path='/carts' component ={Cart}></Route>
-        <Route exact path ='/order-place'><OrderPlace/></Route>
+        <Route exact path="/myorders" component ={MyOrder}></Route>
         
+         <Route exact path='/admin' component={Admin}></Route>
         <Route exact path='/myprofile' component ={Myprofile}></Route>
         <Route path='/*' component={PageNotFound}></Route>
         </Switch>

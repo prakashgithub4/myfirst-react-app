@@ -21,8 +21,9 @@ export default function Checkout(){
             {/* <li class="list-group-item "><Link to={`${path}`}><Redirect to={`/checkout/summery`}></Redirect></Link></li> */}
             {/* <li className={(routename[2] =="summery")?"list-group-item active":"list-group-item"}><Link to={`${path}/summery`}>Order Summery</Link></li> */}
             <li className={(routename[2] =="summery")?"list-group-item active":"list-group-item"}><Link >Order Summery</Link></li>
-            <li class={(routename[2] =="confirm")?"list-group-item active":"list-group-item "}><Link >Place Order</Link></li>
             <li class={(routename[2] =="address")?"list-group-item active":"list-group-item "}><Link>Address</Link></li>
+            <li class={(routename[2] =="confirm")?"list-group-item active":"list-group-item "}><Link >Place Order</Link></li>
+            
             
          </ul>
           

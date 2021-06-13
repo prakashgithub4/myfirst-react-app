@@ -16,7 +16,7 @@ import{useRouteMatch} from 'react-router-dom';
    let sendToPlaceorder =(data)=>{
      let orderDetails = OrderDtails(data)
      props.dispatch(orderDetails);
-     props.history.push('/checkout/confirm');
+     props.history.push('/checkout/address');
     }
     var sum =0;
     let maplist = props.cartdata.map((item,index)=>{

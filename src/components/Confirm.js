@@ -1,116 +1,93 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {connect} from 'react-redux';
- function Confirm(props){
-    let [name, setName] = useState(null);
-    let [address, setAddress] = useState(null);
-    let [phone, setPhone] = useState(null);
-    let [city, setCity] = useState(null);
-    let [pincode, setPincode] = useState(null);
-    let [total,setTotal] = useState((props.totalamount ==undefined)?0:props.totalamount);
+import {MyorderList} from '../reduxStore/middlewares'
 
-    let changeName=(event)=>{
-      setName(event.target.value)
-    }
-    let changeAddress=(event)=>{
-        setAddress(event.target.value)
-      }
-      let changePhone=(event)=>{
-        setPhone(event.target.value)
-      }
-      let changeCity=(event)=>{
-        setCity(event.target.value)
-      }
-      let changePincode=(event)=>{
-        setPincode(event.target.value)
-      }
-    //   let changePincode=(event)=>{
-    //     setPincode(event.target.value)
-    //   }
-    let onClickOrderdetails =()=>{
-       
-        if(name ==null){
-            alert("name field is required");
-            return false;
-        }
-        if(address == null){
-            alert("address field is required");
-            return false;
-        }
-        if(phone ==null){
-            alert("phone number field is required");
-            return false;
-        }
-        if(city == null){
-            alert("city field is required");
-            return false;
-        }
-        if(pincode == null){
-            alert("city field is required");
-            return false;
-        }
-        let obj={name:name,price:total,address:address,city:city,phone:phone,pincode:pincode,cakes:null}
-    }
+ function Confirm(props){
+  useEffect(() => {
+    let myorderList =MyorderList(props.token);
+     props.dispatch(myorderList)
+    
+}, []);
+var total_amount = 0;
+var total=0;
+const data  = props.orders.map((item,index)=>{
+      
+     
+  let cakes= item.cakes.map((item,index)=>{
+    total=(total==0)? item.price:total_amount;
+    total_amount += item.price;
+    
+       return (<>
+      
+       <div class="image-parent">
+         <h6>Cake Details</h6>
+          <img src={item.image} class="img-fluid" alt="quixote"/>
+          <small><strong>Cake Id: </strong>{item.cakeid}</small><br/>
+          <small><strong>Name: </strong>{item.name}</small><br/>
+          <small><strong>price: </strong>{item.price}</small><br/>
+          <small><strong>Weight: </strong>{item.weight}</small><br/>
+          <div><button>+</button><input type="text" value={item.quantity} size="1"/><button>-</button></div>
+      </div>
+      
+       </>)
+        
+  })
+ return (<>
+   <tr key={index}>
+      <td> {cakes}</td>
+      <td>
+       <strong> Order id:</strong>&nbsp;{item.orderid}<br/>
+       <strong>Payment mode</strong>&nbsp;{item.mode}<br/>
+      
+      
+      </td>
+      <td>
+        <h6>Address info</h6>
+        <small><strong>Address:</strong>&nbsp;{item.address}</small><br/>
+        <small><strong>City:</strong>&nbsp;{item.city}</small><br/>
+        <small><strong>Email:</strong>&nbsp;{item.email}</small><br/>
+        <small><strong>Phone:</strong>&nbsp;{item.phone}</small><br/>
+      </td>
+      
+     
+
+    </tr>
+ </>)
+})
+   
 
     return (<>
-        <form>
-            <center>Order Details</center>
-            <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="Name" onKeyUp={changeName}/>
-            </div>
-            </div>
-            <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Address</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="address" placeholder="Address" onKeyUp={changeAddress}/>
-            </div>
-            </div>
-            <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Phone No.</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="Phone No." onKeyUp={changePhone}/>
-            </div>
-            </div>
-            <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">City</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="City" onKeyUp={changeCity}/>
-            </div>
-            </div>
+      <div>Placed Orders</div>
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Product </th>
+     
+      <th scope="col">Order details</th>
 
-            <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Pincode</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="Pincode"onKeyUp={changePincode}/>
-            </div>
-            </div>
+      <th scope="col">Address</th>
+      
+    </tr>
+    {data}
+    <tr>
+      <td>Total</td>
+      <td colSpan="2">{total}</td>
+    </tr>
+  </thead>
+  <tbody>
+ 
 
-            <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Total Price</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword" placeholder="Total Price" value={props.totalamount}/>
-            </div>
-            </div>
-
-          
-           
-                 <button type="button" class="btn btn-primary" onClick={onClickOrderdetails}>Confirm</button>
-
-            
-          
-        </form>
+ 
+ 
+  </tbody>
+</table>
       </>)
 }
-function maptostateProps(state,props){
-    console.log("state=",state)
-    if(state.CartListReducer.isConfirmOrder == false){
-       props.history.replace('/checkout/summery')
-    }else{
-        return {
-            totalamount:state.CartListReducer?.totalprice
-        }
-    }
+function maptoStateprops(state,props){
   
+  return {
+    token:state.AuthReducer?.token,
+    orders:state.CartReducer?.orders
+  }
 }
-export default connect(maptostateProps)(Confirm)
+export default connect(maptoStateprops)(Confirm)

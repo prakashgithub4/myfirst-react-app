@@ -3,21 +3,33 @@ import '../../src/App.css'
 import React,{useState,useEffect} from 'react';
 import { Link,withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
+import {CartList,MyorderList} from '../reduxStore/middlewares'
 
 var string = "";
  function Navbar(props) {
- 
+  useEffect(()=>{
+       props.dispatch(CartList(props.token))
+       props.dispatch(MyorderList(props.token));
+
+  },[])
+  
  
    let [name,setName]= useState(null);
+   
       var onChangeName = (event)=>{
-     //console.log(event.target.value);
+    
       setName(event.target.value)
    }
   var redirect =()=>{
-    if(name != null){
-      props.history.push('/search?q='+name)
-      document.getElementById("myform").reset();
-    }
+   
+     setTimeout(function(){ 
+      
+       props.history.push('/search?q='+name) 
+      }, 1000);
+
+    
+      
+    
   
   }
 
@@ -29,6 +41,7 @@ var string = "";
     })
     props.history.push('/')
   }
+  console.log(props)
   //let token = JSON.parse(window.localStorage.getItem('user'));
   return (
     <div >
@@ -38,6 +51,7 @@ var string = "";
         <a className="navbar-brand" href="#">
           <img src="../images/neosoft.svg" height="30" width="200"/>
         </a>
+        
         <button
           class="navbar-toggler"
           type="button"
@@ -49,6 +63,7 @@ var string = "";
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -56,13 +71,35 @@ var string = "";
                 Home
               </Link>
             </li>
+            {(props.role ==true)?(<li className="nav-item">
+                <Link to="/admin" className="nav-link" aria-current="page">
+                <i class="fa fa-users"></i>
+                </Link>
+              </li>):null
+                
+            }
+           
             <li className="nav-item">
               <Link to={'/contact'} className="nav-link" >
                Contact
               </Link>
             </li>
+             {
+             !props.flag && <Link className="btn btn-info" to={'/login'} >
+               Login
+             </Link>
+           
+            }
+
+            {
+                props.flag &&  <button className="btn btn-danger" type="button" onClick={logout} >
+                Logout
+              </button>
+            }
+
+
             
-         {(!props.flag)?(<li className="nav-item">
+         {/* {(!props.flag)?(<li className="nav-item">
              
              <Link to={'/login'} className="nav-link" >
               Login
@@ -94,7 +131,7 @@ var string = "";
             </li>)
            }
             
-          
+           */}
 
             
             {/* <li className="nav-item">
@@ -111,26 +148,16 @@ var string = "";
               type="search"
               placeholder="Search"
               aria-label="Search"
-              onKeyUp={onChangeName}
+              onChange={onChangeName}
             />
              <label>{string}</label>
-            <button className="btn btn-outline-success" onClick={redirect}type="button" >
-              Search
-            </button>
-            {
-             !props.flag && <Link className="btn btn-info" to={'/login'} >
-               Login
-             </Link>
+            <Link className="search" onClick={redirect} >
+            <i class="fa fa-search"></i>
+            </Link>
            
-            }
-
-            {
-                props.flag &&  <button className="btn btn-danger" type="button" onClick={logout} >
-                Logout
-              </button>
-            }
            
-           <Link to={'/carts'} className="btn btn-outline-success"><i class="fa fa-shopping-cart"></i> Cart 0</Link>
+           <Link to={'/carts'}><span className="badge">{(props.count_cart==null)?0:props.count_cart.length}</span><i className="fa fa-shopping-cart"></i></Link>
+           <Link to={'/myorders'}><span className="badge">{(props.count_orders==null)?0:props.count_orders.length}</span><i class="fa fa-shopping-bag"></i></Link>
 
            
           </form>
@@ -147,7 +174,11 @@ export default connect((state,ownprops)=>{
   
   return {
     email:state.AuthReducer?.email,
-    flag:state.AuthReducer?.flag
+    flag:state.AuthReducer?.flag,
+    role:state.AuthReducer?.role,
+    token:state.AuthReducer?.token,
+    count_cart:state.CartListReducer?.cartdata,
+    count_orders:state.CartReducer?.orders
   }
 })(Navbar);
 

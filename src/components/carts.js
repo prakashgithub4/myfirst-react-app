@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { CartList,Removecart } from "../reduxStore/middlewares";
+import { CartList,Removecart,RemoveAllCart } from "../reduxStore/middlewares";
 import{Link} from 'react-router-dom';
 
 //import axios from 'axios';
@@ -12,12 +12,20 @@ function Cart(props) {
     } else {
       props.dispatch(CartList(props.token));
     }
-  }, [props]);
+  }, []);
   let removecarts = (data)=>{
     let remove = Removecart(data);
     props.dispatch(remove)
+    
+
+  }
+  let removeallcart = ()=>{
+   // alert("ok")
+    let removeall = RemoveAllCart(props.token);
+    props.dispatch(removeall)
   }
   let maplist = props.cartdata.map((item, index) => {
+  
     return (
       <div class="list-group" key={index}>
         <a
@@ -27,10 +35,12 @@ function Cart(props) {
         >
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">
+              <Link to={"/cakedetails/"+item.cakeid}>
               <img
                 src={item.image}
                 style={{ width: "175.645px", height: "99px", margin: "0px" }}
               />{" "}
+              </Link>
               <h2>{item.name}</h2>
             </h5>
 
@@ -63,12 +73,20 @@ function Cart(props) {
         <h2>Cart List</h2>
       </center>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
           <Link to="/checkout" className="btn btn-danger">
           <i class="fa fa-shopping-bag"></i>&nbsp; Checkout
           </Link>
           </div>
-          <div  className="col-md-6">
+
+         
+
+          <div  className="col-md-4">
+           <button type='button' onClick={removeallcart} className="btn btn-primary"> <i class="fa fa-trash"></i>&nbsp;Remove All</button>
+          </div>
+
+
+          <div  className="col-md-4">
            <strong>My Cart</strong>
           </div>
         </div>

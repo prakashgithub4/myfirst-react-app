@@ -3,7 +3,8 @@ function AuthReducer(state ={
   email:undefined,
   flag:localStorage.token?true:false,
   token:localStorage.token,
-  isLoading:true
+  isLoading:true,
+  role:localStorage.role?true:false
 },action){
   
       switch(action.type){
@@ -16,6 +17,8 @@ function AuthReducer(state ={
               state ={...state};
               state["token"]=action.payload?.token;
               state["email"] = action.payload?.email;
+              state['role']=true;
+              localStorage.role=action.payload?.role;
               state["isLoading"]=false;
               state['flag'] = true;
            return state;
@@ -29,14 +32,15 @@ function AuthReducer(state ={
             state ={...state};
             localStorage.clear();
             state.flag = false;
-            state.isLoading=false;
+            state.isLoading=true;
             state.email = undefined;
+            state.role = false
             return state;
           }
          
           default : {
             state={...state}
-            //state['isLoading']=false;
+            state['isLoading']=true;
             return state;
           }
       }
