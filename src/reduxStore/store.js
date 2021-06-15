@@ -2,8 +2,11 @@ import {createStore,combineReducers,applyMiddleware} from 'redux';
 import AuthReducer from './AuthReducer';
 import CartReducer from './Cartreducer';
 import CartListReducer from './CartListReducer';
+import DogReducer from './DogReducer';
 import CakeReducer from './CakeReducer';
 import thunk from "redux-thunk"
+import createSaga from "redux-saga";
+import RootSaga from "./sagas";
 
 
 let middleware =(store)=>next=>action=>{
@@ -28,5 +31,7 @@ let middleware =(store)=>next=>action=>{
   // const result = next(action);
 }
 //console.log("middle ware",JSON.stringify(result))
-let store  = createStore(combineReducers({AuthReducer:AuthReducer,CartReducer:CartReducer,CartListReducer:CartListReducer,CakeReducer:CakeReducer}),applyMiddleware(middleware,thunk));
+let sagaMiddleware = createSaga();
+let store  = createStore(combineReducers({AuthReducer:AuthReducer,CartReducer:CartReducer,CartListReducer:CartListReducer,CakeReducer:CakeReducer,DogReducer:DogReducer}),applyMiddleware(middleware,thunk,sagaMiddleware));
+sagaMiddleware.run(RootSaga)
 export default store;

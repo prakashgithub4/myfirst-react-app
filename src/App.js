@@ -22,13 +22,19 @@ import Myprofile from './components/myprofile';
 import Cart from './components/carts';
 import MyOrder from './components/MyOrders';
 import Admin from'./components/Admin';
+import axios from "axios";
+
 import { Suspense } from 'react';
 
 
 function App() {
   //console.log(cakes)
   
+  axios.interceptors.request.use((request)=>{
   
+    request.headers['authtoken'] = localStorage.token;
+    return request
+  })
   
 var cart = React.lazy(()=>import('./components/carts'));
 cart=<Suspense fallback={<div>Loading ..</div>}><Cart></Cart></Suspense>
@@ -39,9 +45,10 @@ cart=<Suspense fallback={<div>Loading ..</div>}><Cart></Cart></Suspense>
       <div class="container">
      
       <Router>
-        
+    
       <Navbar name={"praksh"} ></Navbar>
        <Switch>
+      
         <Route exact path='/' component={Home}></Route>
         <Route  path ="/checkout" component={Checkout}></Route>
         <Route exact path='/login' component={Login}></Route>

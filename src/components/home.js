@@ -12,7 +12,7 @@ export default function Home(props){
     let [falg,setFlag]=useState(true);
     const [offset, setOffset] = useState(0); /** set offset state */
    // const [data, setData] = useState([]);
-    const [perPage] = useState(10); /** set page size using this state */
+    const [perPage] = useState(8); /** set page size using this state */
     const [pageCount, setPageCount] = useState(0) /** counting the numbers of pages */
 
     const handlePageClick = (e) => {
@@ -45,7 +45,7 @@ export default function Home(props){
    //  
    return (<div>
        <CarosoleBanner></CarosoleBanner>
-       <div>
+       <div className="home-grid">
          {(!falg)?cakeItems:<div>Loading......</div>}
         
        </div>

@@ -274,3 +274,60 @@ export function AddOrder(data,props) {
     );
   };
 }
+/** Cake image upload function */
+
+export function UploadCake(data,formdata){
+  return (dispatch)=>{
+    dispatch({
+      type:"UPLOAD_CAKE_IMAGE_STARTED"
+    });
+    axios({
+      method: "post",
+      url: process.env.REACT_APP_BASE_URL + "/upload ",
+      headers: {
+        authtoken: data.token,
+      },
+      data:formdata,
+    }).then(
+      (response) => {
+        
+        dispatch({
+          type: "UPLOAD_CAKE_IMAGE_SUCCESSFULLY",
+          payload: response.data.imageUrl,
+        });
+        alert("Cake image Uploaded successfully")
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+}
+export function Addcake(data){
+ return (dispatch)=>{
+    dispatch({
+      type:"ADD_CAKE_STARTED"
+    })
+
+    axios({
+      method: "post",
+      url: process.env.REACT_APP_BASE_URL + '/addcake',
+      headers: {
+        authtoken: data.token,
+      },
+      data:{...data},
+    }).then(
+      (response) => {
+        
+        dispatch({
+          type: "UPLOAD_CAKE_IMAGE_SUCCESSFULLY",
+          payload: response.data.imageUrl,
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+ }
+}

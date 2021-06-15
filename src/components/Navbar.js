@@ -7,6 +7,8 @@ import { CartList, MyorderList } from "../reduxStore/middlewares";
 
 var string = "";
 function Navbar(props) {
+  let localEmail = localStorage.email;
+ 
   useEffect(() => {
     props.dispatch(CartList(props.token));
     props.dispatch(MyorderList(props.token));
@@ -58,7 +60,8 @@ function Navbar(props) {
                   Home
                 </Link>
               </li>
-              {props.role == true ? (
+              {/** localEmail */}
+              {localEmail == 'prakashmca577@gmail.com' || localEmail == 'ashu.lekhi0540@gmail.com' ? (
                 <li className="nav-item">
                   <Link to="/admin" className="nav-link" aria-current="page">
                     <i class="fa fa-users"></i>
@@ -129,16 +132,16 @@ function Navbar(props) {
             </ul>
             <form id="myform" className="d-flex">
               <input
-                className="form-control me-2"
+                className=" search-nav form-control me-2 "
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
                 onChange={onChangeName}
               />
               <label>{string}</label>
-              <Link className="search" onClick={redirect}>
+              <button type="button"   className=" searching btn btn-outline-success" onClick={redirect}>
                 <i class="fa fa-search"></i>
-              </Link>
+              </button>
              
           {
          props.flag&& <Link to="/carts">

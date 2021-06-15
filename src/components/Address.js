@@ -17,12 +17,9 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
   let [pincodeErr,setPincodeError]=useState(false)
 
   useEffect(() => {
-    if (props.token == undefined) {
-      alert("please login first");
-      props.history.push("/");
-    } else {
+    
       props.dispatch(CartList(props.token));
-    }
+    
   }, []);
   
   let handleInput = (event) => {
@@ -190,11 +187,15 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
   );
 }
 function mapToStateProps(state,props){
-    console.log("state",state)
-   return{
-       cartdata:state.CartListReducer?.cartdata,
-       token: state.AuthReducer?.token,
-       total_amount :state.CartListReducer?.totalprice
-   }
+    if(state.CartListReducer.totalprice){
+      return{
+        cartdata:state.CartListReducer?.cartdata,
+        token: state.AuthReducer?.token,
+        total_amount :state.CartListReducer?.totalprice
+    }
+    }else{
+      props.history.push('/checkout/summery')
+    }
+   
 }
 export default connect(mapToStateProps)(Address)

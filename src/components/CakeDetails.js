@@ -3,8 +3,11 @@ import "../index.css";
 import { Link,withRouter } from "react-router-dom";
 import axios from "axios";
 import {connect} from "react-redux";
+
 import {AddToCart} from '../reduxStore/middlewares'
 import {cakeDetails} from '../reduxStore/middlewares';
+import StarRatings from 'react-star-ratings';
+import Cake from '../components/Cakes';
 
 
  function CakeDetails(props) {
@@ -13,6 +16,18 @@ import {cakeDetails} from '../reduxStore/middlewares';
   
   useEffect(() => {
     props.dispatch(cakeDetails({id:id}))
+   
+    axios({
+      url: process.env.REACT_APP_BASE_URL +'/cake/'+id,
+      method: 'get'
+  }).then(res => {
+      let cakeList = res.data.data
+      props.dispatch({
+        type:"RELATED_CAKES_FETCH_STARTED",
+        payload:{query:cakeList.flavour}
+      });
+  }, err => {})
+   
     // axios({ method: "get", url: process.env.REACT_APP_BASE_URL + "/cake/" + id, data: JSON }).then(
     //   (response) => {
     //     console.log(response);
@@ -23,7 +38,8 @@ import {cakeDetails} from '../reduxStore/middlewares';
     //     console.log(error);
     //   }
     // );
-  }, []);
+  }, [id]);
+  console.log()
 
   let addtocart = (inputparams)=>{
    // console.log(inputparams)
@@ -38,6 +54,10 @@ import {cakeDetails} from '../reduxStore/middlewares';
        
    
   }
+  
+  
+  
+  
   if (!props.flag) {
     return (
       <div class="row" style={{ marginTop: "10px" }}>
@@ -51,13 +71,28 @@ import {cakeDetails} from '../reduxStore/middlewares';
               <price>RS:{props.data.data.price}/-</price>
               <div className="row">
                 <div className="col-md-6" style={{ padding: "10px" }}>
-                  <label>Total Ratings:</label>
-                  &nbsp; &nbsp;
+                  <label>Total Ratings: </label>
+                  
+
+                 
                   <span>{props.data.data.ratings}</span>
-                </div>
+                 <span>
+                  <StarRatings
+                    rating={props.data.data.ratings}
+                    starRatedColor="red"
+                   // changeRating={this.changeRating}
+                   starDimension="22px"
+                   starSpacing="1px"
+                    numberOfStars={5}
+                    name='rating'
+                   />
+                   </span>
+                  </div>
                 <div className="col-md-6" style={{ padding: "10px" }}>
-                  <label>Total Review</label>
+                  <label>Total Review </label>
                   &nbsp; &nbsp;
+                  <i class="fa fa-thumbs-up"></i>
+                 
                   
                   <span>{props.data.data.reviews}</span>
                 </div>
@@ -75,7 +110,7 @@ import {cakeDetails} from '../reduxStore/middlewares';
                 <h6>Product Details</h6>
                 <p><label>type:&nbsp;</label>{props.data.data.type}</p>
 
-                <p><label>Flavour:</label>&nbsp;{props.data.data.type}</p>
+                <p><label>Flavour:</label>&nbsp;{props.data.data.flavour}</p>
                 
               </div>
               
@@ -94,6 +129,16 @@ import {cakeDetails} from '../reduxStore/middlewares';
             </div>
           </div>
         </div>
+        <div>
+          <h1>Related Cakes</h1>
+          {
+            (props.related.data !=undefined)?props.related.data.map(function(item,index){
+              return <Cake key={index} data={item} ></Cake>
+            }):null
+          }
+         
+        </div>
+        
       </div>
     );
   } else {
@@ -109,7 +154,8 @@ function maptostateProps(state,props){
       token:state.AuthReducer?.token,
       cartdata:state.CartReducer?.cartdata,
       data:state.CakeReducer?.cakes,
-      flag:state.CakeReducer?.isLoading
+      flag:state.CakeReducer?.isLoading,
+      related:state.CakeReducer?.related
     }
   }
   
