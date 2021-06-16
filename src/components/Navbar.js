@@ -38,7 +38,7 @@ function Navbar(props) {
       <nav className="container   navbar text-success navbar-expand-lg navbar-light bg-light ">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand" href="#">
-            <img src="../images/neosoft.svg" height="30" width="200" />
+            <h3>Cake Shop</h3>
           </Link>
 
           <button
