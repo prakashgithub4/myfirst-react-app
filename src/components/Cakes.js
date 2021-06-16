@@ -9,9 +9,9 @@ export default function Cake(props) {
           display: "inline-block",
           margin: "0",
           padding: "10px",
-         
           height:"272px"
         }}
+       
       >
         <Link style={{ textDecoration: "none" }}>
           <div
@@ -19,7 +19,7 @@ export default function Cake(props) {
             style={{ width: "15rem", marginTop: "0", padding: "0" }}
           >
             <img
-              src={props.data.image}
+              src={(!props.data.image)?"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png":props.data.image}
               className="card-img-top alias"
               alt=""
               style={{ height: "100px" }}

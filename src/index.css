@@ -58,7 +58,6 @@ a{
   display: flex;
   list-style: none;
   outline: none;
-  margin-top: 826px;
   padding-left: 373px;
 }
 .pagination > .active > a{
@@ -158,3 +157,11 @@ a{
   display: list-item;
   padding-left: 11px;
 }
+.background-control{
+  background-color: deepskyblue;
+  color: #fdbe0d;
+}
+
+
+
+

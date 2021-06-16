@@ -8,6 +8,7 @@ import {AddToCart} from '../reduxStore/middlewares'
 import {cakeDetails} from '../reduxStore/middlewares';
 import StarRatings from 'react-star-ratings';
 import Cake from '../components/Cakes';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
  function CakeDetails(props) {
@@ -142,7 +143,7 @@ import Cake from '../components/Cakes';
       </div>
     );
   } else {
-    return <div>Loading ...</div>;
+    return <ClipLoader color={"balck"} loading={true} size={150} />;
   }
 }
 function maptostateProps(state,props){

@@ -1,6 +1,7 @@
 import{useEffect} from 'react';
 import {connect} from 'react-redux';
 import {MyorderList} from '../reduxStore/middlewares'
+
  function MyOrders(props){
    useEffect(() => {
      let myorderList =MyorderList(props.token);
@@ -69,7 +70,7 @@ import {MyorderList} from '../reduxStore/middlewares'
         </li>
      </>)
    })
-
+     
     return (<div>
 
 
@@ -87,6 +88,7 @@ import {MyorderList} from '../reduxStore/middlewares'
           </div>
 
         </li> */}
+
         {data}
        
         

@@ -69,11 +69,11 @@ function Navbar(props) {
                 </li>
               ) : null}
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to={"/contact"} className="nav-link">
                   Contact
                 </Link>
-              </li>
+              </li> */}
               {!props.flag && (
                 <Link className="btn btn-info" to={"/login"}>
                   Login
