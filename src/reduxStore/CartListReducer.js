@@ -3,7 +3,7 @@ let inicialstate ={
     cartdata:[],
     isRemovecartLoading:true,
     message:undefined,
-    totalprice:undefined,
+    totalprice:0,
     isConfirmOrder :false,
 
     isAllcartRemove:false,

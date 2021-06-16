@@ -15,6 +15,7 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
   let [invalid,setInvalid] = useState(false)
   let [cityErr,setCityErr] = useState(false);
   let [pincodeErr,setPincodeError]=useState(false)
+  let [counter,setCounter] =useState(true)
 
   useEffect(() => {
     
@@ -25,43 +26,60 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
   let handleInput = (event) => {
     let { name, value } = event.target;
     if (name == "name") {
+      setCounter(false)
       setNames(value);
     } else if (name == "address") {
+      setCounter(false)
       setAddress(value);
     } else if (name == "phone") {
+      setCounter(false)
       setPhone(value);
     } else if (name == "city") {
+      setCounter(false)
       setCity(value);
     } else if (name == "pincode") {
+      setCounter(false)
       setPincode(value);
+    }else if(props.total_amount){
+      setCounter(false)
+    }else{
+      setCounter(true)
     }
+    console.log("flag",counter)
   }
   let onSubmit = ()=>{
    // var validRegex =/^\d{4}$|^\d{6}$/;
       if(names == null){
           //alert("name field is required");
+          setCounter(false)
           setNameErr(true)
          // return false;
       }
       if(address == null){
          // alert("address field is required")
          setAddressErr(true)
+         setCounter(false)
+         
          // return false;
       }
       if(phone == null){
         setPhoneErr(true)
+        setCounter(false)
          // return false;
       }else if(phone.length >10){
        
         setInvalid(true)
+        setCounter(false)
       //  return false;
       }
       if(city == null){
         setCityErr(true)
+        setCounter(false)
         //  return false;
       }
       if(pincode == null){
         setPincodeError(true)
+        setCounter(false)
          // return false;
       }
      
@@ -73,17 +91,17 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
           pincode:pincode,
           cakes:props.cartdata,
           token:props.token,
-          price:props.totalprice
+          price:props.total_amount
           
     
       }
-      //console.log("submit",obj)
+      
       let addorder = AddOrder(obj,props)
       props.dispatch(addorder)
      // props.history.push('/checkout/confirm')
      
   }
-
+  console.log("submit",props.total_amount)
 
 
   return (
@@ -180,7 +198,7 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
         </div>
       </div>
 
-      <button type="button" class="btn btn-danger" onClick={onSubmit} >
+      <button type="button"  class="btn btn-danger" onClick={onSubmit} disabled={counter}>
       <i class="fa fa-check-circle"></i>&nbsp;Confirm
       </button>
     </form>
