@@ -69,10 +69,7 @@ const data  = props.orders.map((item,index)=>{
       
     </tr>
     {data}
-    <tr>
-      <td>Total</td>
-      <td colSpan="2">{total}</td>
-    </tr>
+   
   </thead>
   <tbody>
  

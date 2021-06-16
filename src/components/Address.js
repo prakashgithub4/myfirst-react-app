@@ -45,7 +45,7 @@ import { CartList,AddOrder } from "../reduxStore/middlewares";
     }else{
       setCounter(true)
     }
-    console.log("flag",counter)
+   
   }
   let onSubmit = ()=>{
    // var validRegex =/^\d{4}$|^\d{6}$/;
